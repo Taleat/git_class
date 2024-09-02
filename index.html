@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .container{
+            width:100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #153677, #4e085f);
+            padding: 10px;
+        }
+        .todo-app{
+            width: 540px;
+            min-height: 200px;
+            background-color: #fff;
+            margin: 100px auto 20px;
+            padding: 30px 30px 30px 30px;
+            border-radius: 10px;
+
+        }
+       .todo-app h2{
+            color:#002765;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+      .todo-app  h2 img{
+            width: 40px;
+            margin-left: 10px;
+            /* background-color: aquamarine; */
+            object-fit: cover;
+        }
+        .todo-app #input{
+            height: 50px;
+            width: 250px;
+            border: 2px solid grey;
+            padding: 10px;
+            border-radius: 5px;
+            outline: none;
+            margin-bottom: 30px;
+        }
+        .todo-app .button{
+            height: 50px;
+            width: 100px;
+            /* border: 2px solid grey; */
+            background: rgb(198,154,110);
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            color:white;
+            font-size: 17px;
+        }
+        .todo-app .button:hover{
+            animation: button 0.5s infinite;
+            transition: ease .5s;
+
+            
+        }
+        @keyframes button {
+            to{
+                transform: scale(1.01);
+            }
+            from{
+                transform: scale(1);
+            }
+        }
+        .todo-app ul li{
+            font-size: 18px;
+            font-weight: lighter;
+            color: rgb(75, 73, 73);
+            position: relative;
+            margin-left: 55px;
+            list-style: none;
+            display: flex;
+            gap: 100px;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+        .todo-app ul li::before{
+           content: "";
+           position: absolute;
+           border: 1px solid black;
+           height: 15px;
+           width: 15px;
+           /* background: red; */
+           border-radius: 50%;;
+           background-image: url(./images/Screenshot\ 2024-08-07\ 030825.png);
+           left:-30px;
+           /* background: red; */
+
+           /* margin-right: 20px; */
+        }
+        .checked{
+            text-decoration: line-through;
+        }
+        ul li.checked::before{
+           content: "";
+           background: red;
+        }
+        ul li span{
+            position:absolute;
+            right: 0;
+            /* top: 5px; */
+            width: 30px;
+            height: 30px;
+            font-size: 22px;
+            color:black;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor:pointer;
+            line-height: 40px;
+            border-radius: 50%;
+        }
+        ul li span:hover{
+            background-color: rgba(128, 128, 128, 0.589);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do list<img src="./images/1pc_2024_Exquisite_And_Simple_Office_Desk_Calendar_-removebg-preview.png" alt=""></h2>
+            <input type="text" name="to-do" id="input" placeholder="Enter here">
+            <input type="submit" value="Submit" class="button" onclick="add()">
+           <ul class="listHome" id="listHome">
+            <!-- <li class="checked"> Bath in the morniing <i class="fa-solid fa-plus"></i></li>
+            <li> Go to the market <i class="fa-solid fa-plus"></i></li>
+            <li> Cook some food this morning <i class="fa-solid fa-plus"></i></li> -->
+           </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://kit.fontawesome.com/dbc695aca8.js" crossorigin="anonymous"></script>
+    <script>
+        var input = document.getElementById("input");
+        var listHome = document.getElementById("listHome");
+        // var li = document.querySelector("li")
+        function add(){
+            // event.preventDefault();
+            if(input.value === ''){
+                alert("You must make a list!")
+                return;
+            }
+            else{
+                var li = document.createElement("li"); 
+                li.innerHTML = input.value;
+                // li.textContent = input.value;
+                listHome.appendChild(li);
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7";
+                li.appendChild(span);
+            }
+            input.value = "";
+            saveData()
+        }
+        listHome.addEventListener("click", function(e){
+            if(e.target.tagName === "LI"){
+                e.target.classList.toggle("checked")
+                saveData()
+            }else if(e.target.tagName === "SPAN"){
+                e.target.parentElement.remove();
+                saveData()
+            }
+        }, false);
+    
+        function saveData(){
+            localStorage.setItem("data", listHome.innerHTML)
+        }
+        function showTask(){
+            listHome.innerHTML = localStorage.getItem("data");
+        }
+        showTask()
+    </script>
+</body>
+</html>
